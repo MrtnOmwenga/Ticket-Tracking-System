@@ -1,16 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using TicketTrackingSystem.Models;
 
 namespace TicketTrackingSystem.Data
 {
-    public class ApplicationDbContext: DbContext
+    public class ApplicationDbContext : IdentityDbContext<AppUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-            
         }
 
-        public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Bug> Bugs { get; set; }
 
@@ -30,7 +29,7 @@ namespace TicketTrackingSystem.Data
                 .HasOne(u => u.Role)
                 .WithMany(r => r.AppUsers)
                 .HasForeignKey(u => u.RoleId)
-                .IsRequired();
+                .IsRequired(false);
         }
     }
 }
